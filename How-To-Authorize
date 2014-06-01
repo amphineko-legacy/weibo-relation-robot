@@ -1,0 +1,8 @@
+- Follow this URL, authorize with Weico Pro
+https://api.weibo.com/oauth2/authorize?client_id=2323547071&response_type=code&redirect_uri=http://oauth.weico.cc
+
+- Get the code in the URL
+http://oauth.weico.cc/?code=<Code Here>
+
+- Convert into access token
+node Authorize.js <Code Here>
