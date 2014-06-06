@@ -22,7 +22,7 @@ var RequestClient = function (token, appkey) {
 };
 
 RequestClient.prototype.performRequest = function (request) {
-	this.performRequest2(request.method, request.target, request.param);
+	return this.performRequest2(request.method, request.target, request.param);
 };
 
 RequestClient.prototype.performRequest2 = function (method, target, parameters) {
