@@ -1,3 +1,12 @@
+/*
+	Weibo Relation Robot
+	
+	@id        pw.futa.WeiboRelationRobot.authenticator
+	@author    Naoki Rinmous <sukareki@gmail.com>
+	
+	This software is written under the MIT licence.
+*/
+
 /* jslint node: true */
 
 var buffer      = require('buffer');
