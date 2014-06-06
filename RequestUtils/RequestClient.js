@@ -1,11 +1,13 @@
 /*
 	Weibo Relation Robot
 	
-	@id        pw.futa.WeiboRelationRobot.apiutils.client
+	@id        pw.futa.WeiboRelationRobot.requtils.client
 	@author    Naoki Rinmous <sukareki@gmail.com>
 	
 	This software is written under the MIT licence.
 */
+
+/* jslint node: true */
 
 var Buffer      = require('buffer');
 var http        = require('http');
@@ -14,12 +16,16 @@ var Q           = require('q');
 var querystring = require('querystring');
 var Url         = require('url');
 
-var RequestBuilder = function (token, appkey) {
+var RequestClient = function (token, appkey) {
 	this.token = token;
 	this.appkey = appkey;
 };
 
-RequestBuilder.prototype.performRequest = function (method, target, parameters) {
+RequestClient.prototype.performRequest = function (request) {
+	this.performRequest2(request.method, request.target, request.param);
+};
+
+RequestClient.prototype.performRequest2 = function (method, target, parameters) {
 	var deferred = Q.defer();
 	
 	var url = Url.parse(target), data;
@@ -51,18 +57,17 @@ RequestBuilder.prototype.performRequest = function (method, target, parameters) 
 		});
 		resp.on('end', function () {
 			try {
-				// 處理伺服器回饋 (JSON解析)
 				var pack = JSON.parse(respbody);
 				deferred.resolve(pack);
 			} catch(error) {
-				deferred.reject(error);
+				deferred.reject('json: ' + error);
 			}
 		});
 	});
 	
 	// 回應異常
 	q.on('error', function (error) {
-		deferred.reject(error);
+		deferred.reject('network: ' + error);
 	});
 	
 	// 發送POST資料
@@ -75,4 +80,4 @@ RequestBuilder.prototype.performRequest = function (method, target, parameters) 
 	return deferred.promise;
 };
 
-module.exports = RequestBuilder;
+module.exports = RequestClient;
